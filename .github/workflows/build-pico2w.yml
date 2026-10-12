@@ -1,0 +1,34 @@
+
+name: Build EmuToLife Pico 2 W
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Build firmware
+        working-directory: firmware
+        run: pio run -e pico2w --target buildunified
+
+      - name: Save build output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: EmuToLife-pico2w-build
+          path: firmware/.pio/build/pico2w/
+          if-no-files-found: warn
