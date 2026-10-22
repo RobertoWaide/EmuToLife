@@ -21,7 +21,40 @@ function init() {
 
   // Add click event handlers to all of the pads
   document.querySelectorAll(".pad[data-pad-index]").forEach((pad) => {
+    let holdTimer = null;
+    let holdTriggered = false;
+    const HOLD_MS = 550;
+
+    pad.addEventListener("pointerdown", function (e) {
+      const toyEl = e.target.closest(".toy-on-pad");
+      if (!toyEl) return;
+      holdTriggered = false;
+      holdTimer = window.setTimeout(() => {
+        const padId = Number(pad.dataset.padIndex);
+        if (toypadToys[padId]) {
+          holdTriggered = true;
+          longPressRemovePadToy(padId);
+        }
+      }, HOLD_MS);
+    });
+
+    const cancelHold = () => {
+      if (holdTimer !== null) {
+        clearTimeout(holdTimer);
+        holdTimer = null;
+      }
+    };
+    pad.addEventListener("pointerup", cancelHold);
+    pad.addEventListener("pointerleave", cancelHold);
+    pad.addEventListener("pointercancel", cancelHold);
+
     pad.addEventListener("click", function (e) {
+      if (holdTriggered) {
+        e.preventDefault();
+        e.stopPropagation();
+        holdTriggered = false;
+        return;
+      }
       const padId = this.getAttribute("data-pad-index");
 
       // If clicking on a toy that's already on a pad

@@ -1,401 +1,455 @@
+/* EmuToLife — layout responsivo corrigido */
+:root {
+  color-scheme: dark;
+  --bg: #090d14;
+  --panel: #111927;
+  --panel2: #172235;
+  --border: #26364c;
+  --text: #eef4ff;
+  --muted: #a9b9d1;
+  --yellow: #ffcc00;
+  --yellow-hover: #ffe066;
+  --red: #f0445e;
+  --glow: rgba(190, 220, 255, .65);
+}
+* { box-sizing: border-box; }
+html { min-height: 100%; background: var(--bg); }
 body {
-  background: #0052cc;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: white;
   margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  align-items: center;
+  min-height: 100vh;
+  padding: 12px;
+  background: radial-gradient(ellipse at top, #18243a 0%, var(--bg) 58%);
+  color: var(--text);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  margin-left: 1em;
-  margin-right: 1em;
 }
-
+body > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px auto 14px !important;
+}
 h1 {
-  font-weight: 700;
-  font-size: 2.5rem;
-  margin-bottom: 0.2em;
-  text-shadow: 2px 2px #003d99;
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-shadow: 0 0 14px rgba(70,155,255,.4);
 }
-p {
-  font-weight: 400;
-  font-size: 1.1rem;
-  margin: 0 0 1.5em 0;
-}
-input[type="text"],
-input[type="password"],
-input[type="file"] {
-  width: 280px;
-  padding: 0.5em;
-  margin-bottom: 1em;
-  border: none;
-  border-radius: 0.3em;
-  font-size: 1rem;
-}
-button,
-input[type="file"] {
-  background: #ffcc00;
-  border: none;
-  border-radius: 0.4em;
-  padding: 0.7em 2em;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #333;
+h2 { margin: 0; font-size: 1rem; font-weight: 800; text-shadow: 0 0 8px rgba(70,155,255,.25); }
+p { margin: 0 0 .7em; font-size: .9rem; }
+.sm { margin: 0; color: var(--muted); font-size: .75rem; }
+button, input, select { font: inherit; }
+button {
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 7px;
+  padding: .55em .9em;
+  background: var(--yellow);
+  color: #171717;
+  font-size: .82rem;
+  font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 4px #b38f00;
-  transition: background 0.3s ease;
+  box-shadow: 0 2px 0 #a77f00;
+  transition: transform .15s ease, background .15s ease;
 }
-button:hover,
-input[type="file"]:hover {
-  background: #e6b800;
+button:hover { background: var(--yellow-hover); transform: translateY(-1px); }
+button:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+button.reset { background: var(--red); color: white; box-shadow: 0 2px 0 #8d1f32; }
+button.reset:hover { background: #ff6278; }
+input[type="text"], input[type="password"], input[type="file"], select {
+  max-width: 100%; padding: .55em .7em; border: 1px solid var(--border);
+  border-radius: 7px; background: #0b1220; color: var(--text);
 }
-footer {
-  position: absolute;
-  bottom: 1em;
-  font-size: 0.8rem;
-  color: #ccc;
-}
+input[type="color"] { width: 52px; height: 36px; border: 0; cursor: pointer; }
+label { display: block; margin: .4em 0; font-weight: 600; }
 
-h1 {
-  margin-top: 1em;
-  font-size: 2.2rem;
-  text-shadow: 2px 2px #003d99;
+/* Estrutura: Toypad + Prateleira; Caixa abaixo; controles por último */
+.main {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  align-items: stretch;
 }
-
-h2 {
-  margin: 0em;
-  font-size: 1.75rem;
-  text-shadow: 2px 2px #003d99;
-}
-
-.sm {
-  margin: 0em;
-  text-shadow: 2px 2px #003d99;
-}
-
-form,
-.form {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1em;
-  border-radius: 1em;
-  flex-grow: 1;
+.main-primary,
+.main-addons,
+.advanced {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
 }
-
-label {
-  display: block;
-  margin: 0.5em 0 0.2em;
-  font-weight: 600;
-}
-
-input[type="color"] {
-  width: 60px;
-  height: 40px;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 1em;
-}
-
-button {
-  background: #ffcc00;
-  border: none;
-  border-radius: 0.4em;
-  padding: 0.6em 1.5em;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #333;
-  cursor: pointer;
-  box-shadow: 0 3px #b38f00;
-  transition: background 0.3s ease;
-}
-button:hover {
-  background: #e6b800;
-}
-.reset {
-  margin-top: 0.5em;
-  background: #cc0000;
-  box-shadow: 0 3px #800000;
-  color: white;
-}
-.reset:hover {
-  background: #990000;
-}
-
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2em;
-}
-
+.main-primary > .box,
+.main-addons > div,
+.main-addons .box,
+.advanced .box { width: 100%; min-width: 0; }
 .box {
   display: flex;
   flex-direction: column;
-  gap: 1em;
-
-  margin: 1.5em auto;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1em;
-  border-radius: 1em;
-  flex-grow: 1;
-  flex-shrink: 0;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid rgba(150,185,230,.08);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(23,34,53,.96), rgba(13,20,32,.96));
+  box-shadow: 0 7px 22px rgba(0,0,0,.18);
+}
+.movement-instructions {
+  margin: 0; padding: 8px 10px; border: 1px solid rgba(130,165,215,.12);
+  border-radius: 7px; background: rgba(4,9,17,.48); color: var(--muted);
+  font-size: .72rem; line-height: 1.35;
+}
+.button-container { display: flex; flex-direction: column; gap: 7px; }
+.controls { display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px; }
+.controls > .box { flex: 1 1 280px; }
+.form {
+  display: flex; flex: 1 1 180px; min-width: 0; flex-direction: column;
+  justify-content: space-between; gap: 10px; padding: 10px;
+  border: 1px solid rgba(150,185,230,.1); border-radius: 9px;
+  background: rgba(4,9,17,.3);
 }
 
-#container {
-  font-family: monospace;
-  padding: 1em;
-  border-radius: 1em;
-  background: rgba(0, 0, 0, 0.5);
-  max-height: 640px;
-  text-align: left;
-  overflow-x: auto;
-  overflow-y: scroll;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Playpad Controls */
+/* Prateleira */
 #toybox {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 1em;
+  grid-template-columns: repeat(auto-fit, minmax(min(68px, 100%), 1fr));
+  gap: 7px;
+  width: 100%;
+  align-items: start;
 }
-
 .toy-item {
-  padding: 4px;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  border-radius: 1em;
+  min-width: 0; padding: 5px; border: 1px solid rgba(180,200,230,.1);
+  border-radius: 9px; background: #24243b; color: white;
+  font-weight: 700; text-align: center; cursor: pointer; user-select: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.toy-item img { display: block; width: 100%; max-width: 100%; height: auto; object-fit: contain; }
+.toy-item:hover, .toy-on-pad:hover { transform: scale(1.035); }
+.toy-item[data-type="character"] { background-color: #28233f; }
+.toy-item[data-type="vehicle"] { background-color: #33252d; }
+.toy-item.selected, .pad.occupied:has(.toy-on-pad.selected) {
+  outline: 2px solid var(--yellow); outline-offset: -2px;
+  box-shadow: 0 0 14px rgba(255,204,0,.24);
 }
 
-.toy-item:hover,
-.toy-on-pad:hover {
-  transform: scale(1.05);
+/* Toypad */
+.pad {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+  min-width: 0; height: clamp(52px, 12vw, 90px); margin: 0; padding: 3px;
+  border: 1px solid rgba(220,235,255,.4); border-radius: 10px;
+  background: #202b3b; box-shadow: inset 0 0 7px rgba(0,0,0,.5);
+  transition: background-color .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
-
-.toy-item[data-type="character"] {
-  background-color: #b38f00;
-}
-
-.toy-item[data-type="vehicle"] {
-  background-color: #990000;
-}
-
-.toy-item.selected,
-.pad.occupied:has(.toy-on-pad.selected) {
-  background-color: #003d99;
-  outline: 4px dashed white;
-  outline-offset: -4px;
-}
-
+.pad[data-pad-index="2"] { border-radius: 50%; }
+.pad.hide { visibility: hidden; border-color: transparent; box-shadow: none; }
+.pad.occupied { border-color: #e8f3ff; box-shadow: 0 0 7px var(--glow), inset 0 0 7px rgba(200,225,255,.15); }
+.pad.led-active { box-shadow: 0 0 12px var(--glow), inset 0 0 10px rgba(200,225,255,.3); }
 .toy-on-pad {
   position: relative;
-  max-width: 9em;
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
-
 .toy-on-pad-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
-  width: 100%;
 }
+.pad-toy-actions { position: absolute; bottom: 0; display: flex; justify-content: space-between; gap: 4px; width: 100%; }
+.pad-toy-action { display: flex; align-items: center; justify-content: center; height: 28px; padding: 3px; border: 0; border-radius: 50%; font-size: .8em; }
+.action-putback { background: #d1fae5; color: #065f46; }
+.action-remove { background: #fee2e2; color: #991b1b; }
 
-.pad-toy-actions {
-  position: absolute;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  gap: 4px;
-  bottom: 0%;
-}
+/* Conexão e registros */
+#ws-status { display: inline-flex; align-items: center; gap: .4em; padding: .25em .7em; border-radius: 999px; font-size: .75em; font-weight: 700; }
+#ws-status .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+#ws-status.connected { background: #123e32; color: #8ff0c9; }
+#ws-status.disconnected { background: #4a1d2a; color: #ff9dad; }
+#ws-status.connecting { background: #4a3b13; color: #ffe18a; }
+#container { max-height: 320px; overflow: auto; padding: 10px; border-radius: 8px; background: #080d14; color: #d9e7ff; font-family: monospace; font-size: .75rem; text-align: left; }
 
-.pad-toy-action {
-  height: 28px;
-  padding: 3px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  font-size: 0.8em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-}
-
-.action-putback {
-  background: #d1fae5;
-  color: #065f46;
-}
-.action-remove {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-/* Modals */
-
+/* Modais */
 .modal {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
-  width: 100%;
+  position: fixed; z-index: 1000; inset: 0; display: none; align-items: center;
+  justify-content: center; width: 100%; padding: 14px; background: rgba(0,0,0,.78);
+  backdrop-filter: blur(5px);
 }
-.modal.active {
-  display: flex;
-}
+.modal.active { display: flex; }
 .modal-content {
-  background: rgba(0, 0, 0, 1);
-  padding: 1rem;
-  border-radius: 8px;
-  min-width: 200px;
-  max-width: 90%;
+  width: min(900px, 100%); min-width: 0; max-width: 100%; max-height: 90vh;
+  overflow: auto; padding: 16px; border: 1px solid var(--border);
+  border-radius: 12px; background: #101827; box-shadow: 0 18px 60px rgba(0,0,0,.5);
+}
+.modal-close { float: right; cursor: pointer; font-size: 1.5rem; font-weight: 800; }
+.filter-bar { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.filter-select { min-height: 2.3em; font-size: .85em; }
+.characterGrid, #vehicleGrid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+  gap: 8px; max-height: 65vh; overflow-y: auto; margin: 12px 0;
+}
+.character-option { padding: 6px; border: 2px solid transparent; border-radius: 9px; background: #1c293d; cursor: pointer; text-align: center; }
+.character-option:hover { border-color: var(--yellow); background: #27354c; }
+
+@media (min-width: 700px) {
+  body { padding: 18px; }
+  #toybox { grid-template-columns: repeat(auto-fit, minmax(68px, 1fr)); gap: 8px; }
+  .pad { height: clamp(64px, 6vw, 100px); }
+  .advanced .controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) {
+  body { padding: 8px; }
+  .box { padding: 9px; gap: 8px; }
+  #toybox { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
+  .pad { height: 46px; border-radius: 8px; }
+  .pad[data-pad-index="2"] { border-radius: 50%; }
+  button { padding: .5em .65em; font-size: .75rem; }
+  .controls { gap: 8px; }
+}
+
+
+/* Correção extra: as miniaturas nunca podem ultrapassar os slots */
+.pad { min-width: 0; overflow: hidden; }
+.pad .toy-on-pad { max-width: 100%; max-height: 100%; }
+.pad .toy-on-pad-image { object-fit: contain; }
+#toybox .toy-item { min-width: 0; overflow: hidden; }
+#toybox .toy-item img { max-height: 100px; object-fit: contain; }
+@media (max-width: 699px) {
+  #toybox { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pad { height: clamp(48px, 13vw, 76px); }
+  .pad .toy-on-pad { width: 100%; height: 100%; }
+  .pad .toy-on-pad-image { width: 100%; height: 100%; }
+}
+
+
+/* Toypad mais largo e slots com proporções retangulares */
+.main-primary > .box:first-child {
   width: 100%;
 }
-.modal-close {
-  cursor: pointer;
-  float: right;
-  font-weight: bold;
+.main-primary > .box:first-child > div[style*="grid-template-columns"] {
+  width: 100%;
+  max-width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 6px !important;
 }
-
-/* Character/Toybox Management */
-
-.characterGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1em;
-  margin: 20px 0;
-  max-height: 50vh;
-  overflow-y: scroll;
+.main-primary > .box:first-child .pad {
+  width: 100%;
+  height: clamp(58px, 7.5vw, 88px);
+  min-height: 58px;
+  border-radius: 8px !important;
+  margin: 0;
 }
-
-#vehicleGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1em;
-  margin: 20px 0;
-  max-height: 50vh;
-  overflow-y: scroll;
+.main-primary > .box:first-child .pad[data-pad-index="2"] {
+  border-radius: 50% !important;
 }
-
-.character-option {
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid transparent;
-  border-radius: 10px;
-  padding: 0.25em;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-align: center;
-}
-
-.movement-instructions {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  font-size: 14px;
-  color: #666;
-}
-
-/* Playpad Styling */
-#playpad {
-  display: grid;
-  grid-template-columns: repeat(5, 120px);
-  grid-template-rows: repeat(2, 120px);
-  gap: 20px;
-  justify-content: center;
-}
-
-.playpad-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  position: relative;
-  margin: 1em 0;
-}
-
-.pad.hide {
+.main-primary > .box:first-child .pad.hide {
   visibility: hidden;
 }
-
-.pad {
-  padding: 10px;
-  transition: background-color 0.25s ease-out;
-  border-radius: 0.5rem;
-
-  height: 9em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #6e6e6e;
-  margin: 0 0.5em;
-  flex-wrap: wrap;
+.main-primary > .box:first-child .toy-on-pad {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+.main-primary > .box:first-child .toy-on-pad-image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+@media (min-width: 700px) {
+  .main-primary > .box:first-child .pad {
+    height: clamp(70px, 8vw, 110px);
+    min-height: 70px;
+  }
+}
+@media (max-width: 420px) {
+  .main-primary > .box:first-child .pad {
+    height: clamp(52px, 14vw, 68px);
+    min-height: 52px;
+  }
 }
 
-/* WebSocket Status/Pings */
 
-#ws-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4em;
-  font-size: 0.85em;
-  padding: 0.25em 0.75em;
-  border-radius: 999px;
-  font-weight: 600;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-  margin-top: 0.5em;
+/* Ajuste funcional/visual final: Toypad mais comprido e modal com grelha visível */
+.main-primary > .box:first-child > div[style*="grid-template-columns"] {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+}
+.main-primary > .box:first-child .pad {
+  height: clamp(76px, 11vw, 124px) !important;
+  min-height: 76px !important;
+  border-radius: 8px !important;
+  margin: 0 !important;
+}
+.main-primary > .box:first-child .pad[data-pad-index="2"] {
+  border-radius: 50% !important;
+}
+.main-primary > .box:first-child .pad .toy-on-pad {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+.main-primary > .box:first-child .pad .toy-on-pad-image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.characterGrid, #vehicleGrid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)) !important;
+  align-items: start;
+}
+.character-option img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+}
+#vehicleGrid details { width: 100%; }
+#vehicleGrid .tagList { flex-wrap: wrap; }
+@media (min-width: 700px) {
+  .main-primary > .box:first-child .pad {
+    height: clamp(92px, 10vw, 138px) !important;
+    min-height: 92px !important;
+  }
+}
+@media (max-width: 420px) {
+  .main-primary > .box:first-child .pad {
+    height: clamp(64px, 17vw, 88px) !important;
+    min-height: 64px !important;
+  }
 }
 
-#ws-status.connected {
-  background: #d1fae5;
-  color: #065f46;
+
+/* Ajuste fino: Toypad um pouco mais alto para os slots ficarem bem retangulares */
+.main-primary > .box:first-child .pad {
+  height: clamp(92px, 13vw, 146px) !important;
+  min-height: 92px !important;
+}
+@media (min-width: 700px) {
+  .main-primary > .box:first-child .pad {
+    height: clamp(112px, 12vw, 158px) !important;
+    min-height: 112px !important;
+  }
+}
+@media (max-width: 420px) {
+  .main-primary > .box:first-child .pad {
+    height: clamp(78px, 20vw, 102px) !important;
+    min-height: 78px !important;
+  }
 }
 
-#ws-status.disconnected {
-  background: #fee2e2;
-  color: #991b1b;
+
+/* Toypad: reduzir a largura dos slots laterais em 10%, mantendo a altura */
+.main-primary > .box:first-child > div[style*="grid-template-columns"] {
+  width: 90% !important;
+  max-width: 90% !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#ws-status.connecting {
-  background: #fef9c3;
-  color: #854d0e;
+
+/* Geometria final do Toypad: 7 slots quadrados iguais + centro circular */
+.main-primary > .box:first-child > div[style*="grid-template-columns"] {
+  width: 90% !important;
+  max-width: 90% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(2, auto) !important;
+  gap: 6px !important;
+  align-items: stretch;
 }
-#ws-status .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
+.main-primary > .box:first-child > div[style*="grid-template-columns"] > .pad {
+  width: 100% !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  aspect-ratio: 1 / 1 !important;
+  margin: 0 !important;
+  padding: 3px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+.main-primary > .box:first-child > div[style*="grid-template-columns"] > .pad[data-pad-index="2"] {
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
+}
+.main-primary > .box:first-child > div[style*="grid-template-columns"] > .pad.hide {
+  visibility: hidden !important;
+}
+.main-primary > .box:first-child .pad .toy-on-pad {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+}
+.main-primary > .box:first-child .pad .toy-on-pad-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
 }
 
-/* Filtering */
-.filter-bar {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  margin-bottom: 1em;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
-.filter-select {
-  padding: 0.4em 0.6em;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 0.9em;
-  box-sizing: border-box;
-  min-height: 2.5em;
+/* Prateleira: menos brinquedos por linha e miniaturas maiores */
+#toybox {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  align-items: start;
+}
+#toybox .toy-item {
+  min-width: 0;
+  padding: 7px;
+  border-radius: 10px;
+}
+#toybox .toy-item img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: none !important;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  margin: 0 auto;
+}
+@media (min-width: 900px) {
+  #toybox {
+    grid-template-columns: repeat(6, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+}
+@media (max-width: 520px) {
+  #toybox {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
 }

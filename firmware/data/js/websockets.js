@@ -59,11 +59,13 @@ function applyPadColor(padId, zone) {
   applyToPads(padId, (pad) => {
     pad.style.animation = "none";
     pad.style.backgroundColor = "";
+    pad.classList.remove("led-active");
   });
 
   if (mode === MODE_SOLID) {
     applyToPads(padId, (pad) => {
       pad.style.backgroundColor = rgb(color);
+      pad.classList.add("led-active");
     });
   } else if (mode === MODE_FADE) {
     const speed = zone.fade.speed ?? 10;
@@ -92,11 +94,13 @@ function applyPadColor(padId, zone) {
 
       pad.style.animation = "none";
       pad.style.backgroundColor = rgb(color);
+      pad.classList.add("led-active");
       void pad.offsetWidth;
 
       // alternate: even iterations go base→target, odd go target→base
       // forwards:  hold the final frame until animationend fires
       pad.style.animation = `${name} ${halfDur} linear ${iters} alternate forwards`;
+      pad.classList.add("led-active");
 
       if (count !== 0) {
         const onEnd = () => {
@@ -136,10 +140,12 @@ function applyPadColor(padId, zone) {
     applyToPads(padId, (pad) => {
       pad.style.animation = "none";
       pad.style.backgroundColor = rgb(color);
+      pad.classList.add("led-active");
       void pad.offsetWidth; // force reflow
 
       // linear: keyframe %s directly control timing, no stepping
       pad.style.animation = `${name} ${dur} linear ${iters}`;
+      pad.classList.add("led-active");
 
       if (count !== 0) {
         pad.addEventListener(

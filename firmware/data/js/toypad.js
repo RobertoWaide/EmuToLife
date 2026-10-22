@@ -50,7 +50,7 @@ function swapToyWithPad(selectedToy, targetPadId) {
     } ${
       selectedToy.currentPadId !== undefined
         ? `moved to pad ${selectedToy.currentPadId}`
-        : "moved to toybox"
+        : "devolvido à caixa de brinquedos"
     }`,
   );
 }
@@ -74,35 +74,66 @@ function swapToysBetweenPads(sourcePadId, targetPadId) {
 
 function handleToyOnPadClick(e, padId) {
   e.stopPropagation();
+  const targetPadId = Number(padId);
+  const toyOnTargetPad = toypadToys[targetPadId];
+  if (!toyOnTargetPad) return;
 
-  const toyOnPad = toypadToys[padId];
-  if (!toyOnPad) return;
+  // A selected toy from the shelf swaps with the toy in the clicked slot.
+  if (selectedToy && selectedToy.currentPadId === undefined) {
+    swapToyWithPad(selectedToy, targetPadId);
+    clearSelection();
+    return;
+  }
 
-  // Clicking the already-selected toy on its pad
+  // A toy selected on another pad swaps positions with the clicked toy.
   if (
     selectedToy &&
-    selectedToy.uid === toyOnPad.uid &&
-    selectedToy.currentPadId === padId
+    selectedToy.currentPadId !== undefined &&
+    Number(selectedToy.currentPadId) !== targetPadId
+  ) {
+    const sourcePadId = Number(selectedToy.currentPadId);
+    const sourceToy = toypadToys[sourcePadId];
+    if (!sourceToy) {
+      clearSelection();
+      return;
+    }
+    // Both writes go through the original proxy, preserving device persistence.
+    toypadToys[sourcePadId] = toyOnTargetPad;
+    toypadToys[targetPadId] = sourceToy;
+    renderPad(sourcePadId);
+    renderPad(targetPadId);
+    renderToybox();
+    clearSelection();
+    console.log(`Trocados os brinquedos dos slots ${sourcePadId} e ${targetPadId}`);
+    return;
+  }
+
+  // Clicking the already-selected toy toggles selection off.
+  if (
+    selectedToy &&
+    selectedToy.uid === toyOnTargetPad.uid &&
+    Number(selectedToy.currentPadId) === targetPadId
   ) {
     clearSelection();
     return;
   }
 
-  // No selection yet, just select this pad toy
-  if (!selectedToy) {
-    selectedToy = { ...toyOnPad, currentPadId: padId };
-    renderPad(padId); // re-render to show action overlay
-    return;
-  }
-
-  // A different toy is selected, swap or place
-  if (selectedToy.currentPadId === undefined) {
-    swapToyWithPad(selectedToy, padId);
-  } else {
-    swapToysBetweenPads(selectedToy.currentPadId, padId);
-  }
-
   clearSelection();
+  selectedToy = { ...toyOnTargetPad, currentPadId: targetPadId };
+  renderPad(targetPadId);
+}
+
+// Holding a placed minifigure removes it from the pad and leaves it selected.
+// The next click on an empty pad places it there.
+function longPressRemovePadToy(padId) {
+  const toy = toypadToys[padId];
+  if (!toy) return;
+  delete toypadToys[padId];
+  selectedToy = { ...toy };
+  delete selectedToy.currentPadId;
+  renderPad(padId);
+  renderToybox();
+  console.log(`Long press: ${toy.name} removed from pad ${padId}; ready to place.`);
 }
 
 function moveToyToPad(toy, padId, updateToybox = true) {

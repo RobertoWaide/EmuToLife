@@ -72,7 +72,7 @@ function renderToybox(updatePads = false) {
 
   availableToys.forEach((toy) => {
     const item = document.createElement("div");
-    item.className = "toy-item";
+    item.className = "toy-item" + (selectedToy && selectedToy.uid === toy.uid ? " selected" : "");
 
     item.setAttribute("data-type", toy.type);
     item.setAttribute("data-uid", toy.uid);
@@ -85,7 +85,6 @@ function renderToybox(updatePads = false) {
                               4,
                               "0",
                             )}.webp" alt="${toy.name}" height="80" width="80" ${cdnFallbackScript}>
-                  <p>${toy.name}</p>
     `;
 
     item.addEventListener("click", toyClick);
@@ -111,34 +110,10 @@ function renderPad(padId) {
 
   pad.classList.add("occupied");
   pad.innerHTML = `
-    <div class="toy-on-pad ${isSelected ? "selected" : ""}" data-uid="${toy.uid}">
+    <div class="toy-on-pad ${isSelected ? "selected" : ""}" data-uid="${toy.uid}" title="${toy.name}">
         <img src="${cdn}/${toy.type}s/${toy.id.toString().padStart(4, "0")}.webp"
              alt="${toy.name}" class="toy-on-pad-image" ${cdnFallbackScript}>
-        <p>${toy.name}</p>
-        ${
-          isSelected
-            ? `
-        <div class="pad-toy-actions">
-            <button class="pad-toy-action action-putback" title="Put back">Place</button>
-            <button class="pad-toy-action action-remove"  title="Remove">Remove</button>
-        </div>`
-            : ""
-        }
     </div>
-`;
+  `;
 
-  // Wire up the action buttons if present
-  if (isSelected) {
-    pad.querySelector(".action-putback").addEventListener("click", (e) => {
-      e.stopPropagation();
-      moveToyToPad(selectedToy, selectedToy.currentPadId);
-      clearSelection(); // already in correct place, just deselect
-    });
-
-    pad.querySelector(".action-remove").addEventListener("click", (e) => {
-      e.stopPropagation();
-      moveToyToToybox(padId);
-      clearSelection();
-    });
-  }
 }

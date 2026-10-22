@@ -1,0 +1,23 @@
+EmuToLife — personalização visual v1
+Inclui alterações somente em firmware/data:
+- Interface escura compacta, responsiva.
+- Português brasileiro nos principais controles.
+- Pesquisa textual e favoritos persistidos no navegador para personagens/veículos.
+- Glow neon nos LEDs sem substituir as cores de LED recebidas do firmware.
+- Slot central circular.
+- Removidos os nomes abaixo das imagens dos brinquedos; os nomes ficam como texto alternativo/tooltip.
+- Mantém os caminhos e chamadas originais do backend.
+
+Instalação:
+1. Faça backup da pasta original firmware/data.
+2. Extraia este ZIP na raiz do repositório e permita substituir os arquivos dentro de firmware/data.
+3. Não copie server.py de simulação nem misture arquivos do pacote de simulação local.
+4. Compile o firmware pelo procedimento original do projeto quando estiver com o Pico/ambiente.
+
+Importante: alterações de HTML/CSS/JS não são compilação em si; o firmware pode empacotar esses arquivos da pasta data. A compatibilidade final precisa ser confirmada com o build real do repositório. Esta versão não foi testada no hardware.
+
+Interação do Toypad:
+- Clique curto seleciona o brinquedo.
+- Segure o clique por cerca de 0,55 s para removê-lo do espaço e deixá-lo selecionado.
+- Clique em um espaço vazio para colocá-lo ali.
+- Os botões Place/Remove sobre a imagem foram removidos.

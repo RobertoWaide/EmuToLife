@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <link rel="stylesheet" href="style.css" />
     <style>
@@ -13,7 +13,7 @@
     <div
       style="display: flex; align-items: center; gap: 1em; margin-bottom: 1em"
     >
-      <h1 style="margin: 0">Toypad Emulator</h1>
+      <h1 style="margin: 0">EmuToLife</h1>
       <span id="ws-status" class="connecting">
         <span class="dot"></span>
         <span id="ws-status-text">Connecting</span>
@@ -22,53 +22,7 @@
 
     <div style="width: 100%">
       <div class="main">
-        <div>
-          <div class="box">
-            <h2>Toy Creator</h2>
-            <div
-              style="
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                gap: 1em;
-              "
-            >
-              <button data-modal-open="#characterModal">
-                Create Character
-              </button>
-              <button data-modal-open="#vehicleModal">Create Vehicle</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="box">
-          <div class="box" style="width: 100%">
-            <div
-              style="
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                gap: 1em;
-                margin-left: auto;
-                margin-right: auto;
-              "
-            >
-              <h2 style="flex-shrink: 0">My Toys</h2>
-              <div class="button-container" style="flex-shrink: 1">
-                <button type="button" class="reset" onclick="deleteSelected()">
-                  Delete Toy
-                </button>
-              </div>
-            </div>
-
-            <div class="movement-instructions">
-              Click a toy to select it, then click a toypad space to move it
-              there.
-            </div>
-            <div id="toybox"></div>
-          </div>
-
+        <div class="main-primary">
           <div class="box" style="width: 100%">
             <h2>Toypad</h2>
             <div class="movement-instructions">
@@ -117,8 +71,57 @@
               </div>
             </div>
           </div>
+          <div class="box" style="width: 100%">
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 1em;
+                margin-left: auto;
+                margin-right: auto;
+              "
+            >
+              <h2 style="flex-shrink: 0">Prateleira</h2>
+              <div class="button-container" style="flex-shrink: 1">
+                <button type="button" class="reset" onclick="deleteSelected()">
+                  Remover brinquedo
+                </button>
+              </div>
+            </div>
+
+            <div class="movement-instructions">
+              Click a toy to select it, then click a toypad space to move it
+              there.
+            </div>
+            <div id="toybox"></div>
+          </div>
+
+
+        </div>
+        <div class="main-addons">
+        <div>
+          <div class="box">
+            <h2>Caixa de brinquedos</h2>
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 1em;
+              "
+            >
+              <button data-modal-open="#characterModal">
+                Buscar personagem
+              </button>
+              <button data-modal-open="#vehicleModal">Buscar veículo</button>
+            </div>
+          </div>
         </div>
 
+
+        </div>
         <div class="advanced">
           <div class="controls">
             <div
@@ -128,8 +131,8 @@
               <div style="display: flex; gap: 1em">
                 <div class="form">
                   <div>
-                    <h2>Upload</h2>
-                    <p class="sm">Upload new firmware OTA via this page</p>
+                    <h2>Atualizar firmware</h2>
+                    <p class="sm">Enviar novo firmware via OTA nesta página</p>
                   </div>
 
                   <div class="button-container">
@@ -145,7 +148,7 @@
 
                 <div class="form">
                   <div>
-                    <h2>Upload File</h2>
+                    <h2>Enviar arquivo</h2>
                     <p class="sm">Upload a file to the device filesystem</p>
                   </div>
 
@@ -165,7 +168,7 @@
                         style="width: 100%; pointer-events: none"
                         id="fileLabel"
                       >
-                        Choose File
+                        Escolher arquivo
                       </button>
                     </label>
                     <input
@@ -202,7 +205,7 @@
                         btn.disabled = false;
                         btn.style.opacity = "1";
                       } else {
-                        label.textContent = "Choose File";
+                        label.textContent = "Escolher arquivo";
                         btn.disabled = true;
                         btn.style.opacity = "0.5";
                       }
@@ -217,7 +220,7 @@
 
                       btn.disabled = true;
                       btn.style.opacity = "0.5";
-                      status.textContent = "Uploading...";
+                      status.textContent = "Enviando...";
 
                       try {
                         const path = "/" + _pendingFile.name;
@@ -238,7 +241,7 @@
                           _pendingFile = null;
                           document.getElementById("fileInput").value = "";
                           document.getElementById("fileLabel").textContent =
-                            "Choose File";
+                            "Escolher arquivo";
                         } else {
                           status.textContent =
                             "Upload failed (" + res.status + ")";
@@ -257,7 +260,7 @@
 
               <div style="display: flex; gap: 1em">
                 <div class="form">
-                  <h2>Change Platform</h2>
+                  <h2>Alterar plataforma</h2>
                   <p>Change between PS3 (Wii U, PS4) and Xbox 360</p>
 
                   <div
@@ -298,7 +301,7 @@
                   buttons.forEach((b) => (b.disabled = true));
                   statusEl.style.display = "block";
                   statusEl.textContent =
-                    "Switching platform - the device is restarting...";
+                    "Alternando plataforma — o dispositivo está reiniciando...";
 
                   // The device reboots as part of handling this request, so it may never get to
                   // send a response back - that's expected, not a failure. Once rebooted, it's
@@ -327,8 +330,8 @@
                 onsubmit="return confirmReset(false);"
               >
                 <div>
-                  <h2>Restart</h2>
-                  <p class="sm">This restarts the toypad controller</p>
+                  <h2>Reiniciar</h2>
+                  <p class="sm">Isso reinicia o controlador do Toypad</p>
                 </div>
 
                 <div class="button-container">
@@ -342,7 +345,7 @@
                 onsubmit="return confirmReset(true);"
               >
                 <div>
-                  <h2>Factory Reset</h2>
+                  <h2>Restaurar padrão de fábrica</h2>
                   <p class="sm">
                     This resets your settings and then restarts the toypad
                     controller
@@ -350,17 +353,19 @@
                 </div>
 
                 <div class="button-container">
-                  <button type="submit" class="reset">Factory Reset</button>
+                  <button type="submit" class="reset">Restaurar padrão</button>
                 </div>
               </form>
             </div>
 
             <div class="box">
-              <h2>Logs</h2>
+              <h2>Registros</h2>
               <div id="container">Loading logs...</div>
             </div>
           </div>
         </div>
+      </div>
+
       </div>
 
       <div id="characterModal" class="modal">
@@ -368,9 +373,9 @@
           <span class="modal-close" data-modal-close>&times;</span>
           <div>
             <div class="filter-bar">
-              <h2 style="margin: 0">Select a Character</h2>
+              <h2 style="margin: 0">Buscar personagem</h2>
               <select id="characterFilter" class="filter-select">
-                <option value="">All Abilities</option>
+                <option value="">Todas as habilidades</option>
               </select>
             </div>
             <div id="characterGrid" class="characterGrid">
@@ -385,9 +390,9 @@
           <span class="modal-close" data-modal-close>&times;</span>
           <div>
             <div class="filter-bar">
-              <h2 style="margin: 0">Select a Vehicle</h2>
+              <h2 style="margin: 0">Buscar veículo</h2>
               <select id="vehicleFilter" class="filter-select">
-                <option value="">All Abilities</option>
+                <option value="">Todas as habilidades</option>
               </select>
             </div>
             <div id="vehicleGrid">
