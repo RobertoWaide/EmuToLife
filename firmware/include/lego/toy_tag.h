@@ -20,6 +20,8 @@ class ToyTag : public virtual LEGODimensions::ToyTag {
    public:
     using LEGODimensions::ToyTag::ToyTag;
 
+    char name[64] = "";
+
     virtual JsonDocument toJSON() const {
         JsonDocument doc;
         fillJSON(doc);
@@ -83,7 +85,14 @@ class ToyTag : public virtual LEGODimensions::ToyTag {
  */
 class VehicleTag : public ToyTag, public LEGODimensions::VehicleTag {
    public:
-    using LEGODimensions::VehicleTag::VehicleTag;
+    VehicleTag() = default;
+
+    VehicleTag(uint16_t vehicleId, const char* vehicleName)
+        : LEGODimensions::ToyTag(),
+          ToyTag(),
+          LEGODimensions::VehicleTag(vehicleId) {
+        strlcpy(name, vehicleName ? vehicleName : "", sizeof(name));
+    }
 
    protected:
     void fillJSON(JsonDocument& doc) const override {
@@ -107,7 +116,14 @@ class VehicleTag : public ToyTag, public LEGODimensions::VehicleTag {
  */
 class CharacterTag : public ToyTag, public LEGODimensions::CharacterTag {
    public:
-    using LEGODimensions::CharacterTag::CharacterTag;
+    CharacterTag() = default;
+
+    CharacterTag(uint16_t charId, const char* characterName)
+        : LEGODimensions::ToyTag(),
+          ToyTag(),
+          LEGODimensions::CharacterTag(charId) {
+        strlcpy(name, characterName ? characterName : "", sizeof(name));
+    }
 
    protected:
     void fillJSON(JsonDocument& doc) const override {
