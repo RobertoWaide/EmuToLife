@@ -1,4 +1,4 @@
-#include "web/server.h"
+﻿#include "web/server.h"
 
 LegoServer::LegoServer(const char* ssid, const char* password, Toypad* toypadInstance) {
     this->ssid = strdup(ssid);
@@ -406,80 +406,36 @@ bool LegoServer::add_lego_endpoints() {
 bool LegoServer::load_toybox() {
     this->toybox = new Toybox();
 
-    // Prefer the existing saved collection.
-    if (fs_exists("/toybox.json")) {
-        const char* json = fs_read("/toybox.json");
-        if (!json) {
-            log_err("[LegoServer::load_toybox] Failed to read saved toybox");
-            return false;
-        }
-
-        bool result = this->toybox->deserialize(json);
-        free((void*)json);
-
-        if (!result) {
-            log_err("[LegoServer::load_toybox] Saved toybox JSON is invalid");
-            return false;
-        }
-    } else {
-        // First boot: try the personal collection, then the example.
-        const char* initialFiles[] = {
-            "/toybox-local.json",
-            "/toybox-example.json"
-        };
-
-        bool loaded = false;
-
-        for (const char* filename : initialFiles) {
-            if (!fs_exists(filename)) {
-                continue;
-            }
-
-            const char* json = fs_read(filename);
-            if (!json) {
-                continue;
-            }
-
-            bool result = this->toybox->deserialize(json);
-            free((void*)json);
-
-            if (result) {
-                loaded = true;
-                log_dbg("[LegoServer::load_toybox] Loaded initial collection: %s",
-                        filename);
-                break;
-            }
-
-            log_warn("[LegoServer::load_toybox] Invalid initial collection: %s",
-                     filename);
-        }
-
-        if (!loaded) {
-            log_warn("[LegoServer::load_toybox] No valid initial collection found");
-            return true;
-        }
-
-        if (!this->store_toybox()) {
-            log_err("[LegoServer::load_toybox] Failed to save initial collection");
-            return false;
-        }
+    if (!fs_exists("/toybox.json")) {
+        return true;
     }
+
+    const char* json = fs_read("/toybox.json");
+    if (!json) {
+        return false;
+    }
+
+    bool result = this->toybox->deserialize(json);
+    free((void*)json);
 
     if (toypad != nullptr) {
         toypad->onTagStateChange(
-            [this](const ToyTag* updated) { this->_toyboxDirty = true; });
+            [this](const ToyTag* updated) {
+                this->_toyboxDirty = true;
+            });
 
         for (size_t i = 0; i < this->toybox->count(); i++) {
             ToyTag* tag = this->toybox->getToy(i);
 
-            if (tag->padIndex != TagIndex::Unplaced &&
+            if (tag->padIndex != TagIndex::Unplaced ||
                 tag->padIndex != TagIndex::INVALID) {
                 toypad->tagChangeEvent(tag, TagIndex::Unplaced);
             }
         }
     }
 
-    return true;
+    return result;
+}
 }
 bool LegoServer::store_toybox() {
     if (this->toybox == nullptr) {
