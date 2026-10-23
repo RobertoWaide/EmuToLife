@@ -1,5 +1,4 @@
-
-name: Build EmuToLife Pico 2 W
+﻿name: Build EmuToLife Pico W variants
 
 on:
   workflow_dispatch:
@@ -9,6 +8,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [picow, pico2w]
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,12 +27,12 @@ jobs:
 
       - name: Build firmware
         working-directory: firmware
-        run: pio run -e pico2w --target buildunified
+        run: pio run -e ${{ matrix.env }} --target buildunified
 
       - name: Save build output
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: EmuToLife-pico2w-build
-          path: firmware/.pio/build/pico2w/
+          name: EmuToLife-${{ matrix.env }}-build
+          path: firmware/.pio/build/${{ matrix.env }}/
           if-no-files-found: warn
