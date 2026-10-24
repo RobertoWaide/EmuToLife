@@ -427,7 +427,7 @@ bool LegoServer::load_toybox() {
         for (size_t i = 0; i < this->toybox->count(); i++) {
             ToyTag* tag = this->toybox->getToy(i);
 
-            if (tag->padIndex != TagIndex::Unplaced ||
+            if (tag->padIndex != TagIndex::Unplaced &&
                 tag->padIndex != TagIndex::INVALID) {
                 toypad->tagChangeEvent(tag, TagIndex::Unplaced);
             }
@@ -435,7 +435,6 @@ bool LegoServer::load_toybox() {
     }
 
     return result;
-}
 }
 bool LegoServer::store_toybox() {
     if (this->toybox == nullptr) {
